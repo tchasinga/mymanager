@@ -41,3 +41,20 @@ export const createTaskManager = async (req, res, next) => {
       });
     }
   };
+
+// Update the task 
+export const updateTask = async (req, res, next) => {
+    try {
+      const taskupdated = await Task.findByIdAndUpdate(
+        req.params.id,
+        req.body,
+        {
+          new: true,
+          runValidators: true,
+        }
+      );
+      return res.status(200).json(taskupdated);
+    } catch (error) {
+      next(error);
+    }
+  };
