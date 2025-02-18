@@ -9,16 +9,19 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
     unique: true,
-  },
-  password: {
-    type: String,
-    required: true,
     unique: true,
     trim: true,
     match: [/.+\@.+\..+/, "Please enter a valid email address"],
     maxlength: 8,
   },
+  password: {
+    type: String,
+    required: true,
+  },
 });
 
 const User = mongoose.model("User", userSchema);
 export default User;
+
+
+// using the model give me a default data that I can test inside postman

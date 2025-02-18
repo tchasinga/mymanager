@@ -2,9 +2,8 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
-// import autoApply from "./routes/aply.route.js";
-// import authRoutes from "./routes/user.route.js";
 import dbconnection from "./db/dbconnection.js";
+import autoApplyForUser from "./routes/users.route.js";
 
 // initialization
 const app = express();
@@ -30,4 +29,4 @@ app.listen(PORT, () => {
 });
 
 //   Aidding soem APis
-// app.use("/api", autoApplyForUser); 
+ app.use("/apis/auth", autoApplyForUser); 
