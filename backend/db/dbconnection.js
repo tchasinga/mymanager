@@ -4,7 +4,7 @@ import mongoose from 'mongoose';
 // Load environment variables from .env file
 dotenv.config();
 
-const linksToMogoDbUrl = async () => {
+const dbconnection = async () => {
     try {
         await mongoose.connect(process.env.MONGODB_URL);
         console.log("🎉 Successfully connected to MongoDB database!");
@@ -13,4 +13,4 @@ const linksToMogoDbUrl = async () => {
     }
 };
 
-export default linksToMogoDbUrl
+export default dbconnection
