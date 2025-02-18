@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import SignIn from './Pages/SignIn.jsx';
 import PrivateRoom from './Components/PrivateRoom.jsx';
-import Signup from './Pages/Singup.jsx';
+import Signup from './Pages/Signup.jsx';
 import { Toaster } from 'react-hot-toast';
 import Createtask from './Pages/Createtask.jsx';
 import Sharingdeteals from './Pages/Sharingdeteals.jsx';
