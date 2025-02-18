@@ -6,3 +6,7 @@ const router = express.Router();
 
 router.get('/getusertask', getUserTask)
 router.post('/create', createTaskManager)
+
+
+// Export API routes
+export default router;

@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import dbconnection from "./db/dbconnection.js";
 import autoApplyForUser from "./routes/users.route.js";
+import autoUserTask from "./routes/task.route.js";
 
 // initialization
 const app = express();
@@ -30,4 +31,4 @@ app.listen(PORT, () => {
 
 //   Aidding soem APis
  app.use("/apis/auth", autoApplyForUser); 
-// app.use("/api/tasks", autoApplyForTask);
+ app.use("/api/tasks", autoUserTask);
