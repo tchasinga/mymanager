@@ -6,19 +6,23 @@ import { signOutUserFailure, signOutUserStart, signOutUserSuccess } from "../red
 
 export default function Navbars() {
   const dispatch = useDispatch();
+  const [isLoggingOut, setIsLoggingOut] = React.useState(false);
 
   // Get the current logged-in user
   const currentUser = useSelector((state) => state.user?.user?.currentUser);
-  const username = currentUser?.user?.username || "Guest";
+  const username = currentUser?.user?.username || null;
 
   const handlerSingout = async() => {
       try {
+
         dispatch(signOutUserStart());
+        setIsLoggingOut(true);
         const res = await fetch(`http://localhost:5000/apis/auth/logout`)
         const data = await res.json();
     
         if(data.success === false) {
           dispatch(signOutUserFailure(data.message));
+          setIsLoggingOut(false);
           return;
         }
         dispatch(signOutUserSuccess(data));
@@ -43,8 +47,8 @@ export default function Navbars() {
           <Typography variant="body1" className="text-slate-800 font-medium">
            Welcome, {username}
           </Typography>
-          <Button variant="contained" color="primary" onClick={handlerSingout}>
-            Logout
+          <Button variant="contained" color="inherit" onClick={handlerSingout}>
+            {isLoggingOut ? "Logging out..." : "Logout"}
           </Button>
         </Stack>
       )}

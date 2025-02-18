@@ -7,6 +7,7 @@ import SignIn from './Pages/SignIn.jsx';
 import PrivateRoom from './Components/PrivateRoom.jsx';
 import { useEffect } from 'react';
 import Singup from './Pages/Singup.jsx';
+import { Toaster } from 'react-hot-toast';
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function MainApp() {
 
   return (
     <div className="max-w-screen-xl mx-auto px-3">
+      <Toaster />
       <Navbars />
       <Routes>
         <Route path="/signup" element={<Singup />} />
