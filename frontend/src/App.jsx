@@ -8,6 +8,7 @@ import PrivateRoom from './Components/PrivateRoom.jsx';
 import Signup from './Pages/Singup.jsx';
 import { Toaster } from 'react-hot-toast';
 import Createtask from './Pages/Createtask.jsx';
+import Sharingdeteals from './Pages/Sharingdeteals.jsx';
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function MainApp() {
       <Routes>
         <Route path="/signup" element={<Signup />} />
         <Route path="/signin" element={!currentUser ? <SignIn /> : <Navigate to="/dashboard" />} />
+        <Route path="/sharingdeteals/:sharingId" element={<Sharingdeteals />} />
         <Route path="/" element={!currentUser ? <SignIn /> : <Navigate to="/dashboard" />} />
         <Route path="/create" element={currentUser ? <Createtask /> : <Navigate to="/signin" />} />
         <Route path="/dashboard" element={currentUser ? <Dashboard /> : <Navigate to="/signin" />} />

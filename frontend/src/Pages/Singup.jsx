@@ -29,6 +29,7 @@ export default function Signup() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(formData),
+        token: localStorage.getItem('token'),
       });
       const data = await res.json();
       if (!data.success) {

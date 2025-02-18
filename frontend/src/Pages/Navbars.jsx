@@ -12,13 +12,12 @@ export default function Navbars() {
 
   // Get the current logged-in user
   const currentUser = useSelector((state) => state.user?.user?.currentUser);
-  const username = currentUser?.user?.username || null;
 
   const handlerSignout = async () => {
     try {
       dispatch(signOutUserStart());
       setIsLoggingOut(true);
-      const res = await fetch(`http://localhost:5000/apis/auth/logout`)
+      const res = await fetch(`http://localhost:5000/apis/auth/logout`);
       const data = await res.json();
 
       if (!res.ok || data.success === false) {
@@ -31,7 +30,7 @@ export default function Navbars() {
       dispatch(signOutUserFailure(error.message));
       toast.error(error.message);
     } finally {
-      setIsLoggingOut(false);  
+      setIsLoggingOut(false);
     }
   };
 
@@ -44,11 +43,11 @@ export default function Navbars() {
       </Link>
 
       {/* User Info & Logout Button */}
-      {currentUser && (
+      {currentUser && currentUser.user && (
         <Stack direction="row" spacing={2} alignItems="center">
-          <Avatar>{username ? username.charAt(0).toUpperCase() : "U"}</Avatar>
+          <Avatar>{currentUser.user.username ? currentUser.user.username.charAt(0).toUpperCase() : "U"}</Avatar>
           <Typography variant="body1" className="text-slate-800 font-medium">
-            Welcome, {username}
+            Welcome, {currentUser.user.username}
           </Typography>
           <Button variant="contained" color="inherit" onClick={handlerSignout} disabled={isLoggingOut}>
             {isLoggingOut ? "Logging out..." : "Logout"}

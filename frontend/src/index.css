@@ -7,3 +7,9 @@
   font-family: 'Nunito', sans-serif;
   scroll-behavior: smooth;
 }
+
+.thegrdi{
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-gap: 1rem;
+}

@@ -4,7 +4,7 @@ import { createTaskManager, deleteTask, getTaskById, getUserTask, updateTask,  }
 // initialize express router
 const router = express.Router();
 
-router.get('/getusertask', getUserTask)
+router.get('/getusertask/:id', getUserTask)
 router.get('/taskbyid/:id', getTaskById)
 router.post('/create', createTaskManager)
 router.post('/update/:id', updateTask)
