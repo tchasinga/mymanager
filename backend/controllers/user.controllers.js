@@ -3,6 +3,8 @@ import jwt from "jsonwebtoken";
 import User from "../models/users.models.js";
 import dotenv from "dotenv";
 
+dotenv.config();
+
 // Adding a signup for user to the app...
 export const signup = async (req, res, next) => {
   try {
@@ -55,7 +57,7 @@ export const signup = async (req, res, next) => {
     const result = await newUser.save();
 
     // Generate a JWT token for user authentication
-    const token = jwt.sign({ id: result._id }, process.env.JWT_SECRET, {
+    const token = jwt.sign({ id: result._id }, process.env.SECRET_KEY_JWT, {
       expiresIn: "1d",
     });
 
