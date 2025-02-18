@@ -13,7 +13,8 @@ const AplySchema = new mongoose.Schema(
       trim: true,
     },
     status: {
-      type: Boolean,
+      type: String,
+      enum: ["pending", "completed"],
     },
     userRef: {
       type: String,
