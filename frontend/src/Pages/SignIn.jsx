@@ -42,7 +42,7 @@ export default function SignIn() {
       }
 
       dispatch(signInSuccess(data));
-      setUserName(data.username || "User"); // Assuming 'username' exists in the response
+      setUserName(data.username || "User"); 
       setShowSuccess(true);
       setShowError(false);
       setOpenModal(true);

@@ -13,27 +13,26 @@ export default function Navbars() {
   const currentUser = useSelector((state) => state.user?.user?.currentUser);
   const username = currentUser?.user?.username || null;
 
-  const handlerSingout = async() => {
-      try {
+  const handlerSignout = async () => {
+    try {
+      dispatch(signOutUserStart());
+      setIsLoggingOut(true);
+      const res = await fetch(`http://localhost:5000/apis/auth/logout`)
+      const data = await res.json();
 
-        dispatch(signOutUserStart());
-        setIsLoggingOut(true);
-        const res = await fetch(`http://localhost:5000/apis/auth/logout`)
-        const data = await res.json();
-    
-        if(data.success === false) {
-          dispatch(signOutUserFailure(data.message));
-          toast.error(data.message);
-          setIsLoggingOut(false);
-          return;
-        }
-        dispatch(signOutUserSuccess(data));
-        toast.success(data.message);
-      } catch (error) {
-        console.error(error);
-        dispatch(signOutUserFailure(error.message));
+      if (!res.ok || data.success === false) {
+        throw new Error(data.message || "Logout failed.");
       }
+
+      dispatch(signOutUserSuccess(data));
+      toast.success("Successfully logged out!");
+    } catch (error) {
+      dispatch(signOutUserFailure(error.message));
+      toast.error(error.message);
+    } finally {
+      setIsLoggingOut(false);  
     }
+  };
 
   return (
     <div className="my-5 flex justify-between items-center px-4">
@@ -46,11 +45,11 @@ export default function Navbars() {
       {/* User Info & Logout Button */}
       {currentUser && (
         <Stack direction="row" spacing={2} alignItems="center">
-          <Avatar>{username.charAt(0).toUpperCase()}</Avatar>
+          <Avatar>{username ? username.charAt(0).toUpperCase() : "U"}</Avatar>
           <Typography variant="body1" className="text-slate-800 font-medium">
-           Welcome, {username}
+            Welcome, {username}
           </Typography>
-          <Button variant="contained" color="inherit" onClick={handlerSingout}>
+          <Button variant="contained" color="inherit" onClick={handlerSignout} disabled={isLoggingOut}>
             {isLoggingOut ? "Logging out..." : "Logout"}
           </Button>
         </Stack>
