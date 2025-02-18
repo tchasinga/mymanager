@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { signInStart, signInSuccess, signInFailure } from '../redux/user/userSlice.js';
 import { TextField, Button, CircularProgress, Typography, Alert, Container, Box } from '@mui/material';
 import { Link } from 'react-router-dom';
+import toast from 'react-hot-toast';
 
 export default function Signup() {
   const [formData, setFormData] = useState({});
@@ -33,9 +34,11 @@ export default function Signup() {
       if (!data.success) {
         dispatch(signInFailure());
         setShowError(true);
+        toast.error('Please check your credentials.');
         return;
       }
       dispatch(signInSuccess(data));
+      toast.success('Welcom to mymanager app!');
       navigate('/signin');
       setShowSuccess(true);
       setShowError(false);

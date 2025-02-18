@@ -3,6 +3,7 @@ import { FaReact } from "react-icons/fa";
 import { useSelector, useDispatch } from "react-redux";
 import { Avatar, Stack, Typography, Button } from "@mui/material";
 import { signOutUserFailure, signOutUserStart, signOutUserSuccess } from "../redux/user/userSlice.js";
+import toast from "react-hot-toast";
 
 export default function Navbars() {
   const dispatch = useDispatch();
@@ -22,10 +23,12 @@ export default function Navbars() {
     
         if(data.success === false) {
           dispatch(signOutUserFailure(data.message));
+          toast.error(data.message);
           setIsLoggingOut(false);
           return;
         }
         dispatch(signOutUserSuccess(data));
+        toast.success(data.message);
       } catch (error) {
         console.error(error);
         dispatch(signOutUserFailure(error.message));
