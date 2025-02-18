@@ -80,3 +80,51 @@ export const signup = async (req, res, next) => {
     });
   }
 };
+
+
+// Adding a login for user to the app...
+export const signin = async (req, res, next) => {
+    const { email, password } = req.body;
+
+    try {
+        const validUser = await User.findOne({ email });
+
+        if (!validUser) {
+            const error = new Error("User not found");
+            error.status = 404;
+            return next(error);
+        }
+
+        const validPassword = await bcrypt.compare(password, validUser.password);
+
+        if (!validPassword) {
+            const error = new Error("Password is incorrect");
+            error.status = 401;
+            return next(error);
+        }
+
+        // If all is good, user signed in successfully
+        const token = jwt.sign({ id: validUser._id }, process.env.JWT_SECRET, {
+            expiresIn: "1d", // You could shorten this for better security
+        });
+        const { password: pass, ...userDetails } = validUser._doc;
+
+        const cookieOptions = {
+            httpOnly: true,
+            sameSite: true,
+            secure: process.env.NODE_ENV === 'production', // Secure cookie only in production
+        };
+
+        res
+            .cookie("access_token", token, cookieOptions)
+            .status(200)
+            .json({
+                user: userDetails,
+                success: true,
+                message: "User signed in successfully",
+                token,
+            });
+    } catch (error) {
+        next(error);
+    }
+};
