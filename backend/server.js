@@ -30,4 +30,4 @@ app.listen(PORT, () => {
 });
 
 //   Aidding soem APis
-// app.use("/api", autoApply); 
+// app.use("/api", autoApplyForUser); 
