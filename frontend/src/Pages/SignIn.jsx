@@ -21,7 +21,7 @@ export default function SignIn() {
     try {
       dispatch(signInStart());
 
-      const res = await fetch(`https://dashboard-manager-apis-connection.onrender.com/apis/auth/signin`, {
+      const res = await fetch(`http://localhost:5000/apis/auth/signin`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
