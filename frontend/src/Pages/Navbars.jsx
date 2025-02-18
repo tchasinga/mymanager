@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { Avatar, Stack, Typography, Button } from "@mui/material";
 import { signOutUserFailure, signOutUserStart, signOutUserSuccess } from "../redux/user/userSlice.js";
 import toast from "react-hot-toast";
+import { Link } from "react-router-dom";
 
 export default function Navbars() {
   const dispatch = useDispatch();
@@ -37,10 +38,10 @@ export default function Navbars() {
   return (
     <div className="my-5 flex justify-between items-center px-4">
       {/* Logo */}
-      <div className="flex items-center gap-3">
+      <Link to={'/'} className="flex items-center gap-3">
         <FaReact className="animate-spin duration-1000 text-[40px] text-blue-500" />
         <h1 className="text-[20px] text-slate-800 font-light">Mymanager</h1>
-      </div>
+      </Link>
 
       {/* User Info & Logout Button */}
       {currentUser && (
