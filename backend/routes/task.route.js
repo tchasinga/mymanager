@@ -4,5 +4,5 @@ import { createTaskManager, getUserTask } from '../controllers/task.controllers.
 // initialize express router
 const router = express.Router();
 
-router.get('/', getUserTask)
+router.get('/getusertask', getUserTask)
 router.post('/create', createTaskManager)
