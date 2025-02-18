@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-route
 import SignIn from './Pages/SignIn.jsx';
 import PrivateRoom from './Components/PrivateRoom.jsx';
 import { useEffect } from 'react';
+import Singup from './Pages/Singup.jsx';
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function MainApp() {
     <div className="max-w-screen-xl mx-auto px-3">
       <Navbars />
       <Routes>
+        <Route path="/signup" element={<Singup />} />
         <Route path="/signin" element={!currentUser ? <SignIn /> : <Navigate to="/dashboard" />} />
         <Route path="/dashboard" element={currentUser ? <Dashboard /> : <Navigate to="/signin" />} />
         <Route element={<PrivateRoom />} />

@@ -2,16 +2,14 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { signInStart, signInSuccess, signInFailure } from '../redux/user/userSlice.js';
-import { TextField, Button, CircularProgress, Typography, Alert, Container, Box, Modal } from '@mui/material';
+import { TextField, Button, CircularProgress, Typography, Alert, Container, Box } from '@mui/material';
 import { Link } from 'react-router-dom';
 
-export default function SignIn() {
+export default function Signup() {
   const [formData, setFormData] = useState({});
   const { loading } = useSelector(state => state.user && state.user.user);
   const [showError, setShowError] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
-  const [userName, setUserName] = useState('');
-  const [openModal, setOpenModal] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -24,32 +22,23 @@ export default function SignIn() {
     try {
       dispatch(signInStart());
 
-      const res = await fetch(`http://localhost:5000/apis/auth/signin`, {
+      const res = await fetch(`http://localhost:5000/apis/auth/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(formData),
       });
-
       const data = await res.json();
       if (!data.success) {
         dispatch(signInFailure());
         setShowError(true);
         return;
       }
-
       dispatch(signInSuccess(data));
-      setUserName(data.username || "User"); // Assuming 'username' exists in the response
+      navigate('/signin');
       setShowSuccess(true);
       setShowError(false);
-      setOpenModal(true);
-
-      // Delay before redirecting
-      setTimeout(() => {
-        setOpenModal(false);
-        navigate('/dashboard');
-      }, 3000);
     } catch (error) {
       setShowError(true);
       dispatch(signInFailure());
@@ -67,9 +56,22 @@ export default function SignIn() {
         }}
       >
         <Typography component="h1" variant="h5">
-          Welcome to Mymanager
+          Create an account
         </Typography>
         <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+          
+        <TextField
+            margin="normal"
+            required
+            fullWidth
+            id="username"
+            label="Your username"
+            name="username"
+            autoComplete="username"
+            autoFocus
+            onChange={handleChange}
+          />
+          
           <TextField
             margin="normal"
             required
@@ -94,8 +96,13 @@ export default function SignIn() {
             helperText="Don't share your password"
           />
 
-          <Typography variant="body2" color="textSecondary" align="center">
-            Don't have an account? <Link to="/signup" className='hover:text-green-800 font-semibold cursor-pointer'>Sign Up</Link>
+          {/* don't have an account create one */}
+          <Typography
+            variant="body2"
+            color="textSecondary"
+            align="center"
+          >
+            Already has an account <Link to="/signin" className='hover:text-green-800 font-semibold cursor-pointer'>Sign In</Link>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
           </Typography>
 
           <Button
@@ -109,41 +116,16 @@ export default function SignIn() {
             {loading ? (
               <CircularProgress size={24} />
             ) : (
-              'Sign In'
+              'Sign Up'
             )}
           </Button>
         </Box>
-
-        {showSuccess && <Alert severity="success">Welcome!</Alert>}
-        {showError && <Alert severity="error">Please check your credentials.</Alert>}
-
-        {/* Welcome Modal */}
-        <Modal
-          open={openModal}
-          onClose={() => setOpenModal(false)}
-          aria-labelledby="welcome-modal"
-          aria-describedby="welcome-message"
-        >
-          <Box sx={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            width: 300,
-            bgcolor: 'background.paper',
-            boxShadow: 24,
-            p: 4,
-            borderRadius: 2,
-            textAlign: 'center'
-          }}>
-            <Typography id="welcome-modal" variant="h6">
-              Welcome, {userName}!
-            </Typography>
-            <Typography id="welcome-message" sx={{ mt: 2 }}>
-              You will be redirected shortly...
-            </Typography>
-          </Box>
-        </Modal>
+        {showSuccess && (
+          <Alert severity="success">Welcome!</Alert>
+        )}
+        {showError && (
+          <Alert severity="error">Please check your credentials.</Alert>
+        )}
       </Box>
     </Container>
   );
