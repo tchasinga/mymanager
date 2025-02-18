@@ -22,5 +22,5 @@ const AplySchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const Aply = mongoose.model("Aply", AplySchema);
-export default Aply;
+const Task = mongoose.model("Task", AplySchema);
+export default Task;
