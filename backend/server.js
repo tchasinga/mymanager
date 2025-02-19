@@ -5,6 +5,7 @@ import cookieParser from "cookie-parser";
 import dbconnection from "./db/dbconnection.js";
 import autoApplyForUser from "./routes/users.route.js";
 import autoUserTask from "./routes/task.route.js";
+import path from "path";
 
 // initialization
 const app = express();
@@ -20,6 +21,7 @@ app.use(
 
 dotenv.config();
 const PORT = process.env.PORT;
+const __dirname = path.resolve();
 
 app.use(express.json());
 app.use(cookieParser());
@@ -28,6 +30,12 @@ app.listen(PORT, () => {
     dbconnection();
   console.log(`server is running on port ${PORT}`);
 });
+
+app.use(express.static(path.join(__dirname, '/frontend/build')));
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'frontend', 'build', 'index.html'));
+})
 
 //   Aidding soem APis
  app.use("/apis/auth", autoApplyForUser); 
