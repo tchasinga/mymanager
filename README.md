@@ -67,7 +67,7 @@ In essence, frontend testing is a key factor in building high-quality, robust we
 
 ## A demonstration video for the presentation
  
- >You can view the presentation demo and the web-aplication operating principle in this video [See the video](https://www.loom.com/share/0448249c161f49b0a2da51e5bd7daac8?sid=6599b69b-be4d-4f61-b0af-71fecc7f1502)
+ >You can view the presentation demo and the web-aplication operating principle in this video [See the video]()
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
