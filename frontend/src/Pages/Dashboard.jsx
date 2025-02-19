@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import Load from '../Loading/Load';
 import { FaPencilAlt } from "react-icons/fa";
+import { format } from 'date-fns';
 
 export default function Dashboard() {
   const currentUser = useSelector((state) => state.user && state.user.user.currentUser);
@@ -109,6 +110,15 @@ export default function Dashboard() {
                 </Typography>
                 <Typography variant="body2" color="textSecondary" className='font-light'>
                   {item.description}
+                </Typography>
+                <Typography variant="body2" color="textSecondary" className='font-light'>
+                  Status: {item.status}
+                </Typography>
+                <Typography variant="body2" color="textSecondary" className='font-light'>
+                  Created At: {format(new Date(item.createdAt), 'yyyy-MM-dd HH:mm:ss')}
+                </Typography>
+                <Typography variant="body2" color="textSecondary" className='font-light'>
+                  Updated At: {format(new Date(item.updatedAt), 'yyyy-MM-dd HH:mm:ss')}
                 </Typography>
                 <div className="flex items-center justify-between">
                 <IconButton onClick={() => handlerListingDelete(item._id)} aria-label="delete" color="secondary">
