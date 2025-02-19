@@ -1,17 +1,13 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { signInStart, signInSuccess, signInFailure } from '../redux/user/userSlice.js';
 import { TextField, Button, CircularProgress, Typography, Alert, Container, Box } from '@mui/material';
 import { Link } from 'react-router-dom';
 import toast from 'react-hot-toast';
 
 export default function Signup() {
   const [formData, setFormData] = useState({});
-  const { loading } = useSelector(state => state.user && state.user.user);
   const [showError, setShowError] = useState(false);
-  const [showSuccess, setShowSuccess] = useState(false);
-  const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -20,32 +16,29 @@ export default function Signup() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
-      dispatch(signInStart());
-
       const res = await fetch(`http://localhost:5000/apis/auth/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(formData),
-        token: localStorage.getItem('token'),
       });
       const data = await res.json();
+      setLoading(false);
       if (!data.success) {
-        dispatch(signInFailure());
         setShowError(true);
         toast.error('Please check your credentials.');
         return;
       }
-      dispatch(signInSuccess(data));
-      toast.success('Welcom to mymanager app!');
+      toast.success('Welcome to mymanager app!');
       navigate('/signin');
-      setShowSuccess(true);
       setShowError(false);
     } catch (error) {
       setShowError(true);
-      dispatch(signInFailure());
+      setLoading(false);
+      toast.error('Something went wrong. Please try again.');
     }
   };
 
@@ -63,8 +56,7 @@ export default function Signup() {
           Create an account
         </Typography>
         <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-          
-        <TextField
+          <TextField
             margin="normal"
             required
             fullWidth
@@ -72,10 +64,8 @@ export default function Signup() {
             label="Your username"
             name="username"
             autoComplete="username"
-            autoFocus
             onChange={handleChange}
           />
-          
           <TextField
             margin="normal"
             required
@@ -84,7 +74,6 @@ export default function Signup() {
             label="Email Address"
             name="email"
             autoComplete="email"
-            autoFocus
             onChange={handleChange}
           />
           <TextField
@@ -100,13 +89,12 @@ export default function Signup() {
             helperText="Don't share your password"
           />
 
-          {/* don't have an account create one */}
           <Typography
             variant="body2"
             color="textSecondary"
             align="center"
           >
-            Already has an account <Link to="/signin" className='hover:text-green-800 font-semibold cursor-pointer'>Sign In</Link>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+            Already have an account? <Link to="/signin" className='hover:text-green-800 font-semibold cursor-pointer'>Sign In</Link>
           </Typography>
 
           <Button
@@ -124,11 +112,8 @@ export default function Signup() {
             )}
           </Button>
         </Box>
-        {showSuccess && (
-          <Alert severity="success">Welcome!</Alert>
-        )}
         {showError && (
-          <Alert severity="error">Please check your credentials.</Alert>
+          <Alert key="error" severity="error">Please check your credentials.</Alert>
         )}
       </Box>
     </Container>

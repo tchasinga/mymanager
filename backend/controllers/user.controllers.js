@@ -104,14 +104,13 @@ export const signin = async (req, res, next) => {
 
     // If all is good, user signed in successfully
     const token = jwt.sign({ id: validUser._id }, process.env.SECRET_KEY_JWT, {
-      expiresIn: "1d", // You could shorten this for better security
+      expiresIn: "1d",
     });
     const { password: pass, ...userDetails } = validUser._doc;
 
     const cookieOptions = {
       httpOnly: true,
       sameSite: true,
-      secure: process.env.NODE_ENV === "production",
     };
 
     res.cookie("access_token", token, cookieOptions).status(200).json({
@@ -125,17 +124,15 @@ export const signin = async (req, res, next) => {
   }
 };
 
-
-
 // Adding a logout functionality for user...
 export const logout = async (req, res, next) => {
-    try {
-      res.clearCookie("access_token");
-      res.status(200).json({
-        success: true,
-        message: "User logged out successfully.",
-      });
-    } catch (error) {
-      next(error);
-    }
-  };
+  try {
+    res.clearCookie("access_token");
+    res.status(200).json({
+      success: true,
+      message: "User logged out successfully.",
+    });
+  } catch (error) {
+    next(error);
+  }
+};

@@ -5,13 +5,13 @@ import { useSelector } from 'react-redux';
 import Load from '../Loading/Load';
 
 export default function Dashboard() {
-  const currentUser = useSelector((state) => state.user && state.user?.user?.currentUser);
+  const currentUser = useSelector((state) => state.user && state.user.user.currentUser);
   const [showSharingErrors, setshowSharingErrors] = useState(false);
   const [userSharing, setUserSharings] = useState([]);
   const [loadingWhilefetchingData, setLoadingWhilefetchingData] = useState(false);
 
   // Showing all data which was created by the specific user
-  const fetchUserTasks = async () => {
+  const handlerShowSharing = async () => {
     try {
       setLoadingWhilefetchingData(true);
       setshowSharingErrors(false);
@@ -32,10 +32,6 @@ export default function Dashboard() {
     }
   };
 
-  useEffect(() => {
-    fetchUserTasks();
-  }, []); // Empty dependency array to run only once
-
   return (
     <div className=''>
       <div className='flex justify-center items-center'>
@@ -44,6 +40,10 @@ export default function Dashboard() {
             Create New Task
           </Button>
         </Link>
+
+        <Button variant='contained' color='primary' className='my-5' onClick={handlerShowSharing}>
+          See your task
+        </Button>
       </div>
 
       <div className='my-6'>
@@ -53,17 +53,15 @@ export default function Dashboard() {
 
       {loadingWhilefetchingData && <h1 className='flex justify-center items-center min-h-screen'><Load /></h1>}
       {showSharingErrors && <h1 className='flex justify-center items-center min-h-screen'>We've facing an error kindly refresh your page</h1>}
-      <div className="thegrdi mt-5">
+      <div className="flex flex-wrap gap-4 justify-center max-w-full myhomeget mx-auto">
         {userSharing && userSharing.map((item) => {
-          return (
             <div className="sharing-card" key={item._id}>
-               {item.imageUrls[0] && item.imageUrls.map((url, index) => (
-                <img key={index} src={url} alt={item.title} className="sharing-image" />
-              ))}
               <h1 className='text-black'>{item.title}</h1>
               <p>{item.description}</p>
+              {item.imageUrls && item.imageUrls.map((url, index) => (
+                <img key={index} src={url} alt={item.title} className="sharing-image" />
+              ))}
             </div>
-          );
         })}
       </div>
     </div>
