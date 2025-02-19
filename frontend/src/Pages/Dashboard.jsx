@@ -108,7 +108,7 @@ export default function Dashboard() {
                 <Typography gutterBottom variant="h5" component="div" className='font-semibold text-slate-900'>
                   {item.title}
                 </Typography>
-                <Typography variant="body2" color="textSecondary" className='font-light'>
+                <Typography variant="body2"   color="textSecondary" className='font-light truncate line-clamp-3'  >
                   {item.description}
                 </Typography>
                 <Typography variant="body2" color="textSecondary" className='font-light'>
