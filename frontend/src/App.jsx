@@ -9,6 +9,7 @@ import Signup from './Pages/Singup.jsx';
 import { Toaster } from 'react-hot-toast';
 import Createtask from './Pages/Createtask.jsx';
 import Sharingdeteals from './Pages/Sharingdeteals.jsx';
+import UpdateSharing from './Pages/UpdateSharing.jsx';
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function MainApp() {
         <Route path="/dashboard" element={currentUser ? <Dashboard /> : <Navigate to="/signin" />} />
         {/* Private Route Placeholder */}
         <Route element={<PrivateRoom />} />
+        <Route path="/updating-sharing/:sharingId" element={<UpdateSharing />} />
       </Routes>
     </div>
   );
