@@ -35,7 +35,7 @@ export default function Navbars() {
   };
 
   return (
-    <div className="my-5 flex justify-between items-center px-4">
+    <div className="my-5 flex flex-wrap justify-between items-center px-4">
       {/* Logo */}
       <Link to={'/'} className="flex items-center gap-3">
         <FaReact className="animate-spin duration-1000 text-[40px] text-blue-500" />

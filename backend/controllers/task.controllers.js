@@ -63,7 +63,7 @@ export const createTaskManager = async (req, res, next) => {
   }
 };
 
-// Update the task 
+// Update the task
 export const updateTask = async (req, res, next) => {
   try {
     const taskupdated = await Task.findByIdAndUpdate(req.params.id, req.body, {
