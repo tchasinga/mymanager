@@ -1,36 +1,75 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Divider } from '@mui/material';
+import { Button, Card, CardContent, CardMedia, Divider, Typography, IconButton } from '@mui/material';
+import { MdDelete } from "react-icons/md";
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import Load from '../Loading/Load';
 
 export default function Dashboard() {
   const currentUser = useSelector((state) => state.user && state.user.user.currentUser);
-  const [showSharingErrors, setshowSharingErrors] = useState(false);
+  const [showSharingErrors, setShowSharingErrors] = useState(false);
   const [userSharing, setUserSharings] = useState([]);
-  const [loadingWhilefetchingData, setLoadingWhilefetchingData] = useState(false);
+  const [loadingWhileFetchingData, setLoadingWhileFetchingData] = useState(false);
 
   // Showing all data which was created by the specific user
-  const handlerShowSharing = async () => {
+  const fetchUserTasks = async () => {
     try {
-      setLoadingWhilefetchingData(true);
-      setshowSharingErrors(false);
-      const res = await fetch(`http://localhost:5000/api/tasks/getusertask/${currentUser?.user?._id}`);
+      setLoadingWhileFetchingData(true);
+      setShowSharingErrors(false);
+      const res = await fetch(`http://localhost:5000/api/tasks/getusertask/${currentUser.user._id}`);
       const data = await res.json();
       console.log('Response data:', data); // Added console log for response data
       if (data.success === true) {
         setUserSharings(data.data); // Correctly set the userSharing state
-        setshowSharingErrors(false);
+        setShowSharingErrors(false);
       } else {
-        setshowSharingErrors(true);
+        setShowSharingErrors(true);
       }
-      setLoadingWhilefetchingData(false);
+      setLoadingWhileFetchingData(false);
     } catch (error) {
       console.error('Error fetching user tasks:', error); // Added console log for errors
-      setshowSharingErrors(true);
-      setLoadingWhilefetchingData(false);
+      setShowSharingErrors(true);
+      setLoadingWhileFetchingData(false);
     }
   };
+
+  const handleDelete = async (taskId) => {
+    try {
+      const res = await fetch(`http://localhost:5000/api/tasks/deletetask/${taskId}`, {
+        method: 'DELETE',
+      });
+      const data = await res.json();
+      if (data.success === true) {
+        setUserSharings(userSharing.filter(task => task._id !== taskId));
+        console.log('Task deleted successfully');
+      } else {
+        console.error('Error deleting task:', data.message);
+      }
+    } catch (error) {
+      console.error('Error deleting task:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchUserTasks();
+  }, []); // Empty dependency array to run only once
+
+  // Deleting the Sharing Information
+  const handlerListingDelete = async (sharingId) => {
+    try {
+      const res = await fetch(`http://localhost:5000/api/tasks/delete/${sharingId}`, {
+        method: 'DELETE',
+      })
+      const data = await res.json();
+      if (data.success === true) {
+        console.log(data.success);
+        return;
+      }
+      setUserSharings((prev) => prev.filter((item) => item._id !== sharingId));
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   return (
     <div className=''>
@@ -40,28 +79,42 @@ export default function Dashboard() {
             Create New Task
           </Button>
         </Link>
-
-        <Button variant='contained' color='primary' className='my-5' onClick={handlerShowSharing}>
-          See your task
-        </Button>
       </div>
 
       <div className='my-6'>
-        <h1 className='text-xl text-slate-900'>{currentUser?.user?.username} here are your Task data</h1>
+         <h1 className='text-slate-800 text-xl'>{currentUser.user.username}, here are your Task data</h1>
       </div>
       <Divider />
 
-      {loadingWhilefetchingData && <h1 className='flex justify-center items-center min-h-screen'><Load /></h1>}
-      {showSharingErrors && <h1 className='flex justify-center items-center min-h-screen'>We've facing an error kindly refresh your page</h1>}
-      <div className="flex flex-wrap gap-4 justify-center max-w-full myhomeget mx-auto">
+      {loadingWhileFetchingData && <h1 className='flex justify-center items-center min-h-screen'><Load /></h1>}
+      {showSharingErrors && <h1 className='flex justify-center items-center min-h-screen'>Create some to do</h1>}
+      <div className="thegrdi mt-5">
         {userSharing && userSharing.map((item) => {
-            <div className="sharing-card" key={item._id}>
-              <h1 className='text-black'>{item.title}</h1>
-              <p>{item.description}</p>
+          return (
+            <Card className="sharing-card" key={item._id} sx={{ maxWidth: 345, margin: '0.5rem' }}>
               {item.imageUrls && item.imageUrls.map((url, index) => (
-                <img key={index} src={url} alt={item.title} className="sharing-image" />
+                <CardMedia
+                  key={index}
+                  component="img"
+                  height="140"
+                  image={url}
+                  alt={item.title}
+                  className="sharing-image"
+                />
               ))}
-            </div>
+              <CardContent>
+                <Typography gutterBottom variant="h5" component="div" className='font-semibold text-slate-900'>
+                  {item.title}
+                </Typography>
+                <Typography variant="body2" color="textSecondary" className='font-light'>
+                  {item.description}
+                </Typography>
+                <IconButton onClick={() => handlerListingDelete(item._id)} aria-label="delete" color="secondary">
+                  <MdDelete />
+                </IconButton>
+              </CardContent>
+            </Card>
+          );
         })}
       </div>
     </div>
