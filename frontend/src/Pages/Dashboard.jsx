@@ -4,6 +4,7 @@ import { MdDelete } from "react-icons/md";
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import Load from '../Loading/Load';
+import { FaPencilAlt } from "react-icons/fa";
 
 export default function Dashboard() {
   const currentUser = useSelector((state) => state.user && state.user.user.currentUser);
@@ -109,9 +110,17 @@ export default function Dashboard() {
                 <Typography variant="body2" color="textSecondary" className='font-light'>
                   {item.description}
                 </Typography>
+                <div className="flex items-center justify-between">
                 <IconButton onClick={() => handlerListingDelete(item._id)} aria-label="delete" color="secondary">
                   <MdDelete />
                 </IconButton>
+
+                <Link to={`/updating-sharing/${item._id}`}>
+                  <IconButton aria-label="update" color="primary">
+                    <FaPencilAlt />
+                  </IconButton>
+                </Link>
+                </div>
               </CardContent>
             </Card>
           );
