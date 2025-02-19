@@ -18,7 +18,7 @@ export default function Dashboard() {
     try {
       setLoadingWhileFetchingData(true);
       setShowSharingErrors(false);
-      const res = await fetch(`http://localhost:5000/api/tasks/getusertask/${currentUser.user._id}`);
+      const res = await fetch(`https://mymanagerapi.onrender.com/api/tasks/getusertask/${currentUser.user._id}`);
       const data = await res.json();
       console.log('Response data:', data); // Added console log for response data
       if (data.success === true) {
@@ -37,7 +37,7 @@ export default function Dashboard() {
 
   const handleDelete = async (taskId) => {
     try {
-      const res = await fetch(`http://localhost:5000/api/tasks/deletetask/${taskId}`, {
+      const res = await fetch(`https://mymanagerapi.onrender.com/api/tasks/deletetask/${taskId}`, {
         method: 'DELETE',
       });
       const data = await res.json();
@@ -59,7 +59,7 @@ export default function Dashboard() {
   // Deleting the Sharing Information
   const handlerListingDelete = async (sharingId) => {
     try {
-      const res = await fetch(`http://localhost:5000/api/tasks/delete/${sharingId}`, {
+      const res = await fetch(`https://mymanagerapi.onrender.com/api/tasks/delete/${sharingId}`, {
         method: 'DELETE',
       })
       const data = await res.json();

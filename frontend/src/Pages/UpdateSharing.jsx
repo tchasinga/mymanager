@@ -29,7 +29,7 @@ export default function UpdateSharing() {
       setLoading(true);
       setError(false);
 
-      const res = await fetch(`http://localhost:5000/api/tasks/update/${params.sharingId}`, {
+      const res = await fetch(`https://mymanagerapi.onrender.com/api/tasks/update/${params.sharingId}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -56,7 +56,7 @@ export default function UpdateSharing() {
   useEffect(() => {
     const fetchingList = async () => {
       const sharingId = params.sharingId;
-      const res = await fetch(`http://localhost:5000/api/tasks/taskbyid/${sharingId}`);
+      const res = await fetch(`https://mymanagerapi.onrender.com/api/tasks/taskbyid/${sharingId}`);
       const data = await res.json();
       setFormData(data);
     };

@@ -18,7 +18,7 @@ export default function Signup() {
     e.preventDefault();
     setLoading(true);
     try {
-      const res = await fetch(`http://localhost:5000/apis/auth/register`, {
+      const res = await fetch(`https://mymanagerapi.onrender.com/apis/auth/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

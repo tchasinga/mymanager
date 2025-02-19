@@ -17,7 +17,7 @@ export default function Navbars() {
     try {
       dispatch(signOutUserStart());
       setIsLoggingOut(true);
-      const res = await fetch(`http://localhost:5000/apis/auth/logout`);
+      const res = await fetch(`https://mymanagerapi.onrender.com/apis/auth/logout`);
       const data = await res.json();
 
       if (!res.ok || data.success === false) {
