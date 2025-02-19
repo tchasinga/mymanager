@@ -120,7 +120,7 @@ SECRET_KEY_JWT="z8G3Jf!aQmC2$7XpYv#NdR5tLb^K9WuT"
 ```
 
 
-> Run the following commande
+> Run the following frontend for frontend
 
 
 > For frontend side access... 
