@@ -62,7 +62,7 @@ In essence, frontend testing is a key factor in building high-quality, robust we
 
 ## 🚀 Live Version <a name="live-demo"></a>
 
->Click this Link to View [Live Version](https://influencerview-1.onrender.com)
+>Click this Link to View [Live Version](https://mymanagersite.onrender.com)
 
 
 ## A demonstration video for the presentation
