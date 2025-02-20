@@ -13,12 +13,11 @@ dotenv.config();
 // Initialize Express app
 const app = express();
 const PORT = process.env.PORT || 5000;
-const __dirname = path.resolve();
 
 // Middleware
 app.use(
   cors({
-    origin: ["http://localhost:3000", "https://mymanagersite.onrender.com/"],
+    origin: ["http://localhost:3000", "https://mymanagersite.onrender.com"],
     credentials: true,
     allowedHeaders: "*",
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS", "HEAD"],
@@ -31,12 +30,6 @@ app.use(cookieParser());
 app.use("/apis/auth", autoApplyForUser);
 app.use("/api/tasks", autoUserTask);
 
-// Serve static files from the React build directory
-app.use(express.static(path.join(__dirname, "..", "frontend", "build")));
-
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "..", "frontend", "build", "index.html"));
-});
 
 // Start server and connect to database
 app.listen(PORT, () => {
