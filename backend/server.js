@@ -31,12 +31,11 @@ app.use(cookieParser());
 app.use("/apis/auth", autoApplyForUser);
 app.use("/api/tasks", autoUserTask);
 
-// Serve static files from React frontend
-app.use(express.static(path.join(__dirname, "frontend", "build")));
+// Serve static files from the React build directory
+app.use(express.static(path.join(__dirname, "..", "frontend", "build")));
 
-// Handle React routes (serve index.html for unknown routes)
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "frontend", "build", "index.html"));
+  res.sendFile(path.join(__dirname, "..", "frontend", "build", "index.html"));
 });
 
 // Start server and connect to database
