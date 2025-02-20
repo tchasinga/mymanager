@@ -20,23 +20,23 @@ app.use(
   cors({
     origin: ["http://localhost:3000", "https://mymanagersite.onrender.com"],
     credentials: true,
-    allowedHeaders: "*", 
+    allowedHeaders: "*",
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS", "HEAD"],
   })
 );
 app.use(express.json());
 app.use(cookieParser());
 
-// Serve static files from the React frontend app
-app.use(express.static(path.join(__dirname, './frontend', 'build')));
-
-// API routes
-app.use("/apis/auth", autoApplyForUser); 
+// API routes should be defined **before** static file serving
+app.use("/apis/auth", autoApplyForUser);
 app.use("/api/tasks", autoUserTask);
 
-// Handle React routes
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+// Serve static files from React frontend
+app.use(express.static(path.join(__dirname, "frontend", "build")));
+
+// Handle React routes (serve index.html for unknown routes)
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "frontend", "build", "index.html"));
 });
 
 // Start server and connect to database
