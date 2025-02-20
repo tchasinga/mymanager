@@ -18,7 +18,7 @@ const __dirname = path.resolve();
 // Middleware
 app.use(
   cors({
-    origin: ["http://localhost:3000", "https://mymanagersite.onrender.com"],
+    origin: ["http://localhost:3000", "https://mymanagersite.onrender.com/"],
     credentials: true,
     allowedHeaders: "*",
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS", "HEAD"],
